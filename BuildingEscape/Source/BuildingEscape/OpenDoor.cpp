@@ -1,7 +1,8 @@
 // Copyright Ian McCabe 2018
 
 #include "OpenDoor.h"
-
+#include "GameFramework/Actor.h"
+#include "Engine/World.h"
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
 {
@@ -11,7 +12,6 @@ UOpenDoor::UOpenDoor()
 
 	// ...
 }
-
 
 // Called when the game starts
 void UOpenDoor::BeginPlay()
@@ -37,14 +37,17 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	if (pressurePlate->IsOverlappingActor(actorThatOpens))
 	{
+		// Open door
 		RotateDoor(FVector(0.0f, 0.0f, openAngle));
-		//lastDoorOpenTime = world->GetRealTimeSeconds();
+		lastDoorOpenTime = world->GetTimeSeconds();
+		isDoorOpen = true;
 	}
-	else
-	{
-		RotateDoor(FVector(0.0f, 0.0f, 0.0f));
-	}
-	
 
+	if(isDoorOpen && (doorCloseDelay + lastDoorOpenTime) < world->GetTimeSeconds())
+	{
+		// Close door
+		RotateDoor(FVector(0.0f, 0.0f, 0.0f));
+		isDoorOpen = false;
+	}
 }
 

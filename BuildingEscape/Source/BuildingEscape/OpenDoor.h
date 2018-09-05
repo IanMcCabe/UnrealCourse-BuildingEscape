@@ -2,14 +2,10 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
-#include "Engine/World.h"
-#include "Engine/TriggerVolume.h"
 #include "CoreMinimal.h"
+#include "Engine/TriggerVolume.h"
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
-
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 {
@@ -18,7 +14,7 @@ class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UOpenDoor();
-
+	
 
 protected:
 	// Called when the game starts
@@ -31,20 +27,20 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UPROPERTY(VisibleAnywhere)
+	AActor* owner;
+	UWorld* world;
+
+	AActor* actorThatOpens;
+	bool isDoorOpen;
+
+	UPROPERTY(EditAnywhere)
 	float openAngle = -90.0f;
 
 	UPROPERTY(EditAnywhere)
 	float doorCloseDelay;
 
-	float lastDoorOpenTime;
-	AActor* owner;
-	UWorld* world;
-	
+	float lastDoorOpenTime;	
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* pressurePlate;
-
-	UPROPERTY(EditAnywhere)
-	AActor* actorThatOpens;
 };
