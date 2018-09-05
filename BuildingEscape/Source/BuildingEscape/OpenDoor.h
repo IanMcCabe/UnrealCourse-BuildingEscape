@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "GameFramework/Actor.h"
+#include "Engine/World.h"
 #include "Engine/TriggerVolume.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -17,6 +19,7 @@ public:
 	// Sets default values for this component's properties
 	UOpenDoor();
 
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -30,6 +33,14 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere)
 	float openAngle = -90.0f;
+
+	UPROPERTY(EditAnywhere)
+	float doorCloseDelay;
+
+	float lastDoorOpenTime;
+	AActor* owner;
+	UWorld* world;
+	
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* pressurePlate;
